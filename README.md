@@ -8,6 +8,7 @@ Modules used:
  - Mocha
  - dotenv
  - mongoose
+ 
 For proper functioning database credential from .env file are required. 
 Comments search by movie title is filtered by parameter 'imdbID'. 
 Movie filtering is performed either by exact matches or 'LIKE' matches, to search e.g. by actors or genre. 
