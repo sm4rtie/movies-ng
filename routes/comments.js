@@ -1,34 +1,43 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require('mongoose');
-var Comment = require('../models/Comment');
-/* GET users listing. */
+let express = require('express');
+let router = express.Router();
+let mongoose = require('mongoose');
+let Comment = require('../models/Comment');
 
-router.get('/comments', function(req, res, next) {
-  console.log(req.query['imdbID']);
-  var imdbID = req.query['imdbID'];
-  console.log(imdbID);
+router.get('/comments', async(req, res) => {
+  let imdbID = req.query['imdbID'];
+  //let imdbID = req.body.imdbID;
+try{
   if(imdbID) {
-    Comment.find({imdbID: imdbID}).then(function (comments) {
-     res.send(JSON.stringify(comments));
-     });
-   }
-   else {
-     Comment.find({}).then(function (comments) {
-      res.send(JSON.stringify(comments));
-      });
-   }
-});
+    let comments = await Comment.find({imdbID: imdbID});
+    res.send(comments);
+  }
+  else {
+     comments = await Comment.find({});
+     res.send(comments);
+    }
+  } catch(err) {
+        return res.status(500).send("Error");
+       }
+   });
 
-router.post('/comments', function(req, res, next) {
-  var imdbID = req.query['imdbID'];
-  var comment = req.query['comment'];
-  var newComment = new Comment({imdbID: imdbID, comment: comment })
-  newComment.save(function(err) {
-    if (err) res.send(err);
-    res.send(newComment);
-  })
+router.post('/comments', async(req, res) => {
+  let imdbID = req.body.imdbID;
+  let comment = req.body.comment;
+  if(!imdbID || !comment) {
+    res.status(400);
+    return res.status(500).send("Please provide movie ID and comment.")
+  }
+  else {
+    try {
+  let newComment = new Comment({imdbID: imdbID, comment: comment })
+  await newComment.save();
+      res.send(newComment);
+} catch(err){
+  return res.status(500).send("Error");
 
+    }
+  }
 
-});
+  });
+
 module.exports = router;

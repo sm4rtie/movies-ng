@@ -1,10 +1,10 @@
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Schema.Types.ObjectId;
+let mongoose = require('mongoose');
+let ObjectId = mongoose.Schema.Types.ObjectId;
 
 //Define a schema
-var Schema = mongoose.Schema;
+let Schema = mongoose.Schema;
 
-var Comment = new Schema({
+let Comment = new Schema({
 
     imdbID: String,
     comment: String

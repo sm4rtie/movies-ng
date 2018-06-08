@@ -1,29 +1,24 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mongoose = require('mongoose');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var moviesRouter = require('./routes/movies');
-var commentsRouter = require('./routes/comments');
-
-var app = express();
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+let mongoose = require('mongoose');
+let bodyParser = require('body-parser');
+let indexRouter = require('./routes/index');
+let moviesRouter = require('./routes/movies');
+let commentsRouter = require('./routes/comments');
+let app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
-app.use('/', usersRouter);
 app.use('/', moviesRouter);
 app.use('/', commentsRouter);
 // catch 404 and forward to error handler
@@ -41,9 +36,10 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-var mongoDB = 'mongodb://marta:marta1@ds147390.mlab.com:47390/movies_mj_db';
+//let mongoDB = 'mongodb://marta:marta1@ds147390.mlab.com:47390/movies_mj_db';
+let mongoDB = 'mongodb://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST;
 mongoose.connect(mongoDB);
-var db = mongoose.connection;
+let db = mongoose.connection;
 
 mongoose.Promise = global.Promise;
 

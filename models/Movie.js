@@ -1,11 +1,11 @@
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Schema.Types.ObjectId;
-var Buffer = mongoose.Schema.Types.Buffer;
+let mongoose = require('mongoose');
+let ObjectId = mongoose.Schema.Types.ObjectId;
+let Buffer = mongoose.Schema.Types.Buffer;
 
 //Define a schema
-var Schema = mongoose.Schema;
+let Schema = mongoose.Schema;
 
-var Movie = new Schema({
+/*let Movie = new Schema({
     title: String,
     year: String,
     rated: String,
@@ -31,5 +31,6 @@ var Movie = new Schema({
     production: String,
     website: String,
 
-}, { _id: false });
+}, { _id: false });*/
+let Movie = new Schema({ any: Schema.Types.Mixed });
 module.exports = mongoose.model('MovieModel', Movie );
